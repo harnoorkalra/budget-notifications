@@ -5,10 +5,11 @@ from datetime import date
 
 salary = float(input("Enter this month's salary: ",))
 file = 'budgeting.xlsx'
-df = pd.read_excel('/Users/noorkalra/Desktop/notifications/budgeting.xlsx')
+df = pd.read_excel('/Users/noorkalra/git/budget-notifications/budgeting.xlsx')
 df.drop(labels = ['Unnamed: 5', 'Unnamed: 6', 'Unnamed: 7'], axis = 1, inplace= True)
 df.drop(labels = [17], axis = 0, inplace= True)
 today = date.today()
+#print(df)
 
 def Food():
     if df.at[16,'Food'] >= 0.3*salary and df.at[16,'Food'] <= 0.35*salary:
@@ -41,16 +42,16 @@ def misc():
         title = "Approaching the shopping limit!!"
         message = "You have spent {} on miscellaneous purchases this month. Please stop. Your limit for the month is {}".format(round(df.at[16, 'Misc'], salary*0.25),1)
         pync.notify(message)
-    if df.at[16, 'Misc'] > 125:
+    if df.at[16, 'Misc'] > salary*0.25:
         title = "Over budget!!"
         message = "You have spent {} more than you were supposed to this month. STOP SPENDING!!!".format(round(df.at[16,'Misc']-(salary*0.25), 1))
         pync.notify(message)
 
 if __name__ == "__main__":
     Food()
-    time.sleep(7)
+    time.sleep(3)
     Bills()
-    time.sleep(7)
+    time.sleep(3)
     misc()
 
   
